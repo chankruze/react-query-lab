@@ -8,11 +8,14 @@ Copyright (c) geekofia 2022 and beyond
 import { useQuery } from "react-query";
 import axios from "axios";
 
+const fetchSuperHeroes = () =>
+  axios.get(`${import.meta.env.VITE_API_URL}/superheroes`);
+
 export const RQSuperHeroesPage = () => {
   // use react-query
-  const query = useQuery("super-heroes", () =>
-    axios.get(`${import.meta.env.VITE_API_URL}/superheroes`)
-  );
+  const query = useQuery("super-heroes", fetchSuperHeroes, {
+    staleTime: 30000, // depends on the frequency of the data being updated
+  });
 
   // get the query props
   const { isLoading, isError, error, data, dataUpdatedAt } = query;
